@@ -1,0 +1,28 @@
+def parent(ind) { return i/2 }
+def left(ind) { return 2 * ind }
+def right(ind) { return 2*ind+1 }
+
+def min_heapify(arr,i) { // sweep arr[i] down
+  //if (arr.size() <= 1) { return arr } // do nothing
+  //if (i >= arr.size()) { return arr }
+  int leftIndex = left(i)
+  int rightIndex = right(i)
+  int minIndex = i
+  if (minIndex <= arr.size() && arr[leftIndex] < arr[i]) {
+    minIndex = leftIndex
+  } else if (rightIndex <= arr.size() && arr[rightIndex] < arr[i]) {
+    minIndex = rightIndex  
+  }
+  if (minIndex != i) { // exchange arr[i] with greater child 
+    def hand = arr[minIndex]
+    arr[minIndex] = arr[i]
+    arr[i] = hand // arr[minIndex,i] = arr[i,minIndex]
+    min_heapify(arr, minIndex)
+  }
+}  
+
+def a = [4,6,7,3,1,4,6,7,9,0]
+for (i in a.size()-1..0) { // actually, a.size()/2..0
+  max_heapify(a,i)
+}
+println "max sorted array:" + a
