@@ -1,0 +1,4 @@
+def heads() {
+  Math.random() < 0.5
+}
+

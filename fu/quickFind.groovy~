@@ -1,0 +1,12 @@
+def quickFind( arr, elementToFind ) {
+  return arr[ elementToFind ]
+}
+
+def slowUnion( arr, elementOne, elementTwo ) {
+  
+}
+
+int[] ids = new int[15];
+
+for (int i i= 0; i < 15; i++) { id[i] = i } // initially, all elements are components
+
