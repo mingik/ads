@@ -1,0 +1,23 @@
+Out of n 2dim points, find the closest to the given one.
+
+* Inspiration from Binary Search Tree! but in 2d
+
+* Divide the space into 2 halves VERTICALLY by choosing the middle point
+* Then divide each half HORIZONTALLY by choosing the middle point again (in each half)
+
+class KDTree {
+  KDNode root
+}
+
+class KDNode {
+  2D_Point point
+  int orient
+  Region region
+  KDNode above
+  KDNode below
+}
+
+class Region {
+  int xmin,ymin
+  int xmax,ymax
+}

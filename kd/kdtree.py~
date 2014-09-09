@@ -1,0 +1,15 @@
+# KD Tree Implementation
+
+HORIZONTAL = 0
+VERTICAL = 1
+
+class KDTree:
+    def __init__(self):
+        """create an empty kdtree"""
+        self.root = None
+    def add(self,pt):
+        """Add point to KDTree"""
+        if self.root:
+            self.root.add(pt)
+        else:
+            self.root = KDNode(pt,VERTICAL)

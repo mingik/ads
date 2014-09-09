@@ -1,0 +1,19 @@
+class Graph:
+    def __init__(self):
+        self.edges = {}
+
+    def addVertex(self,v):
+        """All vertices are unique!"""
+        if v not in self.edges:
+            self.edges[v] = []
+
+    def addEdge(self,from_v,to_v):
+        """Add edge to graph"""
+        if from_v not in self.edges:
+            self.edges[from_v] = []
+        if to_v not in self.edges:
+            self.edges[to_v] = []
+        if to_v not in self.edges[from_v]:
+            self.edges[from_v].append(to_v)
+        if from_v not in self.edges[to_v]:
+            self.edges[to_v].append(from_v)
