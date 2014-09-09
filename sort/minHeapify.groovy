@@ -22,12 +22,12 @@ def min_heapify(arr,i) { // sweep arr[i] down
 }  
 
 def buildMinHeap(arr) { 
-  for (i in arr.size()-1..0) { // actually, a.size()/2..0
-    min_heapify(arr,i)
+  for (i in a.size()-1..0) { // actually, a.size()/2..0
+    min_heapify(a,i)
   }
 }
 
 def a = [4,6,7,3,1,4,6,7,9,0]
 println "Initial array:"+a
-buildMinHeap(a)
+buildMinHeap(arr)
 println "minheap:" + a

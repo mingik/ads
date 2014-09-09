@@ -26,8 +26,8 @@ def max_heapify(arr,i) { // sweep arr[i] down
 }  
 
 def buildMaxHeap(arr) {
-  for (i in arr.size()-1..0) { // actually, a.size()/2..0
-    max_heapify(arr,i)
+  for (i in a.size()-1..0) { // actually, a.size()/2..0
+    max_heapify(a,i)
   }
 }
 
