@@ -1,0 +1,8 @@
+-module(quicksort).
+-export([quicksort/1]).
+
+quicksort(List) ->
+    {Left,Right} = partition(List),
+    quicksort(Left) ++ [Pivot] ++ quicksort(Right).
+
+partition(
