@@ -1,5 +1,5 @@
 -module(quicksort).
--export([quicksort/1]).
+-export([quicksort/1,lc_quicksort/1]).
 
 quicksort([]) -> [];
 quicksort([Pivot|Rest]) ->
@@ -15,3 +15,11 @@ partition(Pivot,[H|T],Smaller,Larger) ->
 	    partition(Pivot,T,Smaller,[H|Larger]) % grow Larger
     end.
 
+lc_quicksort([]) ->
+    [];
+lc_quicksort([Pivot|Rest]) ->
+    lc_quicksort([Smaller || Smaller <- Rest,
+			     Smaller =< Pivot])
+    ++ Pivot ++
+	lc_quicksort([Larger || Larger <- Rest,
+				Larger > Pivot]).
