@@ -169,7 +169,7 @@ object BoxBlurApp extends App {
     }
   }
 
-  def applyFilter(imagePath: String, filterName: String, numTasks: Int, radius: Int): Img = {
+  def applyFilter(imagePath: String, filterName: String, numTasks: Int, radius: Int) {
     val image = loadImage(imagePath)
     val dst = new Img(image.width, image.height)
     filterName match {
@@ -177,7 +177,13 @@ object BoxBlurApp extends App {
       case "horizontal-box-blur"     => horizontalBlur(image, dst, 0, image.width, radius)
 
     }
-    dst
+    try {
+      val bufferedImage = new BufferedImage(dst.width, dst.height, BufferedImage.TYPE_INT_ARGB)
+      for (x <- 0 until dst.width; y <- 0 until dst.height) bufferedImage.setRGB(x, y, dst(x, y))
+      ImageIO.write(bufferedImage, "jpg", new File("./output.jpg"))
+    } catch {
+      case e: IOException => println("Unable to save image file")
+    }
   }
 
   applyFilter(args(0), args(1), args(2).toInt, args(3).toInt)
