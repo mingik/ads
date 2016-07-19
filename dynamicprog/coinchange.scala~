@@ -1,0 +1,17 @@
+
+/**
+  * Exercise 3
+  */
+object CoinChangeCounter {
+  def countChange(money: Int, coins: List[Int]): Int = {
+    def helper(money: Int, coins: List[Int]): Int = money match {
+      case amount if (amount < 0) => 0
+      case 0 if (coins.isEmpty) => 1
+      case amount => if (coins.isEmpty) 0 else helper(amount - coins.head, coins) + helper(amount, coins.tail)
+    }
+
+    if (money == 0) 0 else helper(money, coins)
+  }
+
+  coin
+}
