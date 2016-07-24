@@ -1,6 +1,19 @@
 import java.util.concurrent._
 import scala.util.DynamicVariable
 
+/**
+  Implementation of BoxBlur algorithm that blurrs the given image by updating the value of each pixel with the average value of 
+  all pixels within the given radius.
+  
+  Usage: $ scala boxblur.scala [path to input image] [name of the filter to apply] [number of parallel tasks to spawn] [radius for blurr]
+  where: 
+  [path to input image] is the relative or full path to the image you want to blur
+  [name of the filter to apply] can be one of horizontal-box-blur, horizontal-box-blur-par, vertical-box-blur, vertical-box-blur-par
+  [number of parallel tasks to spawn] any positive number specifying the parallelism factor if you chose *-par filter in the previous step
+  [radius for blurr] is the positive value of the blurr radius
+
+  Blurred image will be written into "output.jpg" file.
+  */
 object Par {
   val forkJoinPool = new ForkJoinPool
 
@@ -172,11 +185,16 @@ object BoxBlurApp extends App {
   def applyFilter(imagePath: String, filterName: String, numTasks: Int, radius: Int) {
     val image = loadImage(imagePath)
     val dst = new Img(image.width, image.height)
+
+    // apply filter on image and write result into dst.
     filterName match {
       case "horizontal-box-blur-par" => horizontalBlurPar(image, dst, numTasks, radius)
       case "horizontal-box-blur"     => horizontalBlur(image, dst, 0, image.width, radius)
-
+      case "vertical-box-blur"       => verticalBlur(image, dst, 0, image.height, radius)
+      case "verical-box-blur-par"    => verticalBlurPar(image, dst, numTasks, radius)
     }
+
+    // save dst into "output.jpg" file
     try {
       val bufferedImage = new BufferedImage(dst.width, dst.height, BufferedImage.TYPE_INT_ARGB)
       for (x <- 0 until dst.width; y <- 0 until dst.height) bufferedImage.setRGB(x, y, dst(x, y))

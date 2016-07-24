@@ -1,0 +1,54 @@
+import java.util.concurrent._
+import scala.util.DynamicVariable
+import scala.math.pow
+
+/**
+  Implementation of k-means algorithm that finds clusters amoung given 3d points.
+  */
+
+object Par {
+  val forkJoinPool = new ForkJoinPool
+
+  class TaskScheduler {
+    def schedule[T](what: => T): ForkJoinTask[T] = {
+      val task = new RecursiveTask[T] { def compute = what }
+      Thread.currentThread match {
+        case w: ForkJoinWorkerThread => task.fork
+        case _ => forkJoinPool.execute(task)
+      }
+      task
+    }
+    def parallel[A, B](whatA: => A, whatB: => B): (A, B) = (whatA, task(whatB).join())
+  }
+
+  val scheduler = new DynamicVariable[TaskScheduler](new TaskScheduler)
+
+  def task[T](what: => T): ForkJoinTask[T] = scheduler.value.schedule(what)
+
+  def parallel[A, B](whatA: => A, whatB: => B): (A, B) = scheduler.value.parallel(whatA, whatB)
+}
+
+/**
+  Point in 3d space.
+  */
+class Point(val x: Double, val y: Double, val z: Double) {
+  private def round(v: Double): Double = (v * 100).toInt / 100.0
+  def squareDistance(p: Point): Double = pow(p.x - x, 2)  + pow(p.y - y, 2) + paw(p.z - z, 2)
+  override def toString = s"Point(${round(x)}, ${round(y)}, ${round(z)})"
+}
+
+object KMeans {
+  def generatePoints(k: Int, num: Int): Seq[Point] = {
+    def generateCoordinate(rand: Random[Double], counter: Int, bound: Double): Double = ((counter + 1) % k) * 1.0 / k + rand.nextDouble() * 0.5
+
+    val randx = new Random(1)
+    val randy = new Random(3)
+    val randz = new Random(5)
+
+    (0 until num)
+      .map(new Point(generateCoordinate(randx, _, k), generateCoordinate(randy, _, k), generateCoordinate(randz, _, k))).to[mutable.ArrayBuffer]
+  }
+
+
+
+}
