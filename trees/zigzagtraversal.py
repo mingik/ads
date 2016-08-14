@@ -33,32 +33,29 @@ class Solution(object):
         :type root: TreeNode
         :rtype: List[List[int]]
         """
-        if not root:
-            return []
-        
-        ret = []
-        layers = [[root]]
-        zig = True
-        while len(layers) > 0:
-            zig = not zig
-            prev_layer = layers[0]
-            ret.append([nod.val for nod in prev_layer if nod])
-            next_layer = []
-            for node in prev_layer:
-                if node:
-                    if zig:
+        if root:
+            layers = [[root]]
+            ret = []
+            # do BFS
+            while len(layers)>0:
+                layer = [nod.val for nod in layers[0] if nod]
+                ret.append(layer)
+                next_layer = []
+                for node in layers[0]:
+                    if node:
                         if node.left:
-                        next_layer.append(node.left)
+                            next_layer.append(node.left)
                         if node.right:
                             next_layer.append(node.right)
-                        else:
-                            if node.right:
-                                next_layer.append(node.right)
-                            if node.left:
-                                next_layer.append(node.left)
-                
-            if len(next_layer)>0:
-                layers = [next_layer]
-            else:
-                layers = []
-        return ret
+                if len(next_layer)>0:
+                    layers = [next_layer]
+                else:
+                    layers = []
+
+            # add zigzag
+            for i in range(len(ret)):
+                if i % 2 == 1:
+                    ret[i].reverse()
+            return ret
+        else:
+            return []            
